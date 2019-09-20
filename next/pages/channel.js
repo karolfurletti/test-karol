@@ -123,7 +123,13 @@ const ChatRoom = ({ url, url: { query: { channel = 'general' } } }) => (
                           <Button icon={ <RefreshIcon /> } onClick={ () => refetch() } />
                         </StyledRoomHeader>
 
-                        <StyledBoxMessage pad='medium' flex='grow' >
+                        <StyledBoxMessage pad='medium' flex='grow' innerRef={node => {
+                            if (node) {
+                                const height = node.boxContainerRef.scrollHeight;
+                                node.boxContainerRef.scrollTop = height;
+                            }
+                        }}
+                        >
                           { loading ? 'Loading...' : (
                             messages.length === 0 ? 'No one talking here yet :(' : (
                               messages.map(({ id, author, message }) => (
