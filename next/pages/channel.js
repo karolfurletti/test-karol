@@ -55,6 +55,10 @@ const LoadingComponent = () => (
   </Box>
 )
 
+const StyledBoxMessage = styled(Box)`
+  overflow: auto; height: 0px
+`
+
 import CurrentUserContainer from 'app/modules/auth/containers/CurrentUserContainer'
 import ChannelsContainer from 'app/modules/channel/containers/ChannelsContainer'
 import MessagesContainer from 'app/modules/channel/containers/MessagesContainer'
@@ -119,7 +123,7 @@ const ChatRoom = ({ url, url: { query: { channel = 'general' } } }) => (
                           <Button icon={ <RefreshIcon /> } onClick={ () => refetch() } />
                         </StyledRoomHeader>
 
-                        <Box pad='medium' flex='grow'>
+                        <StyledBoxMessage pad='medium' flex='grow' >
                           { loading ? 'Loading...' : (
                             messages.length === 0 ? 'No one talking here yet :(' : (
                               messages.map(({ id, author, message }) => (
@@ -130,7 +134,7 @@ const ChatRoom = ({ url, url: { query: { channel = 'general' } } }) => (
                               ))
                             )
                           ) }
-                        </Box>
+                        </StyledBoxMessage>
 
                         <Box pad='medium' direction='column'>
                           { user && user.uid ? (
