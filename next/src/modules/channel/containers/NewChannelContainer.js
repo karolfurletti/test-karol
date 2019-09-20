@@ -1,5 +1,5 @@
 import React from 'react'
-import { func } from 'prop-types'
+import { func, array } from 'prop-types'
 import gql from 'graphql-tag'
 import { Mutation } from 'react-apollo'
 
@@ -21,20 +21,22 @@ const mutation = gql`
 
 // @TODO: implement optimistic query on channels?
 
-const NewMessageContainer = ({ children }) => (
+const NewChannelContainer = ({ children, channels }) => (
   <Mutation mutation={ mutation } refetchQueries={ ['Channels'] }>
     { mutate => (
       children(name => {
         if (name) {
-          mutate({ variables: { name } })
+          const result = channels.find(i => i.name === name);
+          result ? alert('A channel with the same already exists') :  mutate({ variables: { name }})
         }
       })
     ) }
   </Mutation>
-)
+);
 
-NewMessageContainer.propTypes = {
+NewChannelContainer.propTypes = {
   children: func,
-}
+  channels: array
+};
 
-export default NewMessageContainer
+export default NewChannelContainer
