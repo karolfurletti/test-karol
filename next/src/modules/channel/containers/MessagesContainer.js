@@ -50,11 +50,11 @@ const normalize = pipe(
     defaultTo([]),
     map(normalizeMessage)
   )),
-)
+);
 
-const MessagesContainer = ({ children, channel }) => (
+const MessagesContainer = ({ children, channel, pollInterval = 500 }) => (
   channel && channel.tid ? (
-    <Query query={ query } variables={ { channel: channel.tid } }>
+    <Query query={ query } variables={ { channel: channel.tid } } pollInterval={pollInterval}>
       { pipe(normalize, children) }
     </Query>
   ) : (
@@ -63,13 +63,14 @@ const MessagesContainer = ({ children, channel }) => (
       <Heading tag='h2'>This channel does not exist :(</Heading>
     </Box>
   )
-)
+);
 
 MessagesContainer.propTypes = {
   children: func,
   channel: shape({
     tid: number.isRequired
-  })
-}
+  }),
+  pollInterval:number
+};
 
 export default MessagesContainer
